@@ -50,7 +50,7 @@ Configura la conexión a PostgreSQL en el archivo `.env`:
 ```
 ### 5. Migrar la base de datos
 ```bash
- php artisan migrate --seed
+ php artisan migrate
 ```
 ### 6. Iniciar el servidor local
 ```bash
