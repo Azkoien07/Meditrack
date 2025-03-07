@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('especialidades', function (Blueprint $table) {
             $table->id();
+            // Columnas
             $table->string('cod_especialidad')->unique();
             $table->string('nombre')->unique();
             $table->text('descripcion')->nullable();

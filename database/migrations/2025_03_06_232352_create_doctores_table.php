@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('doctores', function (Blueprint $table) {
-            //Columnas
             $table->id();
+            //Columnas
             $table->string('nombre');
             $table->string('apellido')->nullable();
             $table->enum('genero', ['masculino', 'femenino', 'otro']);

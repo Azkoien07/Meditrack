@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
+            // Columnas
             $table->string('correo')->unique();
             $table->string('contrasena');
             // Relaciones
-            
             // Relacion (N-1) con la tabla roles
             $table -> foreignId('rol_id')->constrained('roles')->onDelete('cascade');
             $table->timestamps();
