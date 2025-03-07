@@ -12,7 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('doctores', function (Blueprint $table) {
+            //Columnas
             $table->id();
+            $table->string('nombre');
+            $table->string('apellido')->nullable();
+            $table->enum('genero', ['masculino', 'femenino', 'otro']);
+            $table->enum('turno', ['mañana', 'tarde', 'noche']);
+            
+            // Relación (1-1) con Usuario
+            $table->foreignId('usuario_id')->constrained('usuarios')->onDelete('cascade');
+            
             $table->timestamps();
         });
     }

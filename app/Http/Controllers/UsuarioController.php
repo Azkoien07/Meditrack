@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Especialidades;
+use App\Models\usuario;
 use Illuminate\Http\Request;
 
-class EspecialidadesController extends Controller
+class UsuarioController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class EspecialidadesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Especialidades $especialidades)
+    public function show(usuario $usuario)
     {
         //
     }
@@ -42,7 +42,7 @@ class EspecialidadesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Especialidades $especialidades)
+    public function edit(usuario $usuario)
     {
         //
     }
@@ -50,7 +50,7 @@ class EspecialidadesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Especialidades $especialidades)
+    public function update(Request $request, usuario $usuario)
     {
         //
     }
@@ -58,7 +58,7 @@ class EspecialidadesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Especialidades $especialidades)
+    public function destroy(usuario $usuario)
     {
         //
     }

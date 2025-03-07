@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\citas;
+use App\Models\roles;
 use Illuminate\Http\Request;
 
-class CitasController extends Controller
+class RolesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class CitasController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(citas $citas)
+    public function show(roles $roles)
     {
         //
     }
@@ -42,7 +42,7 @@ class CitasController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(citas $citas)
+    public function edit(roles $roles)
     {
         //
     }
@@ -50,7 +50,7 @@ class CitasController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, citas $citas)
+    public function update(Request $request, roles $roles)
     {
         //
     }
@@ -58,7 +58,7 @@ class CitasController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(citas $citas)
+    public function destroy(roles $roles)
     {
         //
     }

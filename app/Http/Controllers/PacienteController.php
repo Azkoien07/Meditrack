@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Doctores;
+use App\Models\paciente;
 use Illuminate\Http\Request;
 
-class DoctoresController extends Controller
+class PacienteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class DoctoresController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Doctores $doctores)
+    public function show(paciente $paciente)
     {
         //
     }
@@ -42,7 +42,7 @@ class DoctoresController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Doctores $doctores)
+    public function edit(paciente $paciente)
     {
         //
     }
@@ -50,7 +50,7 @@ class DoctoresController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Doctores $doctores)
+    public function update(Request $request, paciente $paciente)
     {
         //
     }
@@ -58,7 +58,7 @@ class DoctoresController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Doctores $doctores)
+    public function destroy(paciente $paciente)
     {
         //
     }
