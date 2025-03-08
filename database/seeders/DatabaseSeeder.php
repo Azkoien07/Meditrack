@@ -79,7 +79,7 @@ class DatabaseSeeder extends Seeder
                 'telefono' => '5551234567',
                 'email' => 'carlos@example.com',
                 'usuario_id' => 2, // Asignar al segundo usuario (Doctor)
-            ], 
+            ],
         ];
 
         foreach ($doctores as $doctor) {
