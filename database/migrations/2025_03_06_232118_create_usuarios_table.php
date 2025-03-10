@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             // Columnas
             $table->string('correo')->unique();
-            $table->string('contrasena');
+            $table->string('contraseña');
             // Relaciones
             // Relacion (N-1) con la tabla roles
             $table -> foreignId('rol_id')->constrained('roles')->onDelete('cascade');

@@ -65,13 +65,13 @@
         {{-- Email --}}
         <div class="mb-3">
             <label for="email" class="form-label">Correo Electrónico</label>
-            <input type="email" name="email" id="email" class="form-control" required autofocus>
+            <input type="email" name="correo" id="correo_login" class="form-control" required autofocus>
         </div>
 
         {{-- Password --}}
         <div class="mb-3">
             <label for="password" class="form-label">Contraseña</label>
-            <input type="password" name="password" id="password" class="form-control" required>
+            <input type="password" name="contraseña" id="contraseña_login" class="form-control" required>
         </div>
 
         {{-- Botón de Login --}}

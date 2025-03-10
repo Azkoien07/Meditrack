@@ -21,7 +21,7 @@ class Usuario extends Authenticatable {
         'contrasena',
     ];
 
-    // Hasheado automático de contraseña 
+    // Hasheado automático de contraseña
     public function setContrasenaAttribute($value)
     {
         $this->attributes['contrasena'] = bcrypt($value);

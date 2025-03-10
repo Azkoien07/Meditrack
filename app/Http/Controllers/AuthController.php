@@ -4,58 +4,47 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\File;
 
 class AuthController extends Controller
-{
-    public function showLogin()
+{   public function showLogin()
     {
         return view('auth.login');
     }
-
     public function login(Request $request)
     {
-        // Validación de los campos
-        $request->validate([
-            'role' => 'required|in:admin,doctor,paciente',
-            'email' => 'required|email',
-            'password' => 'required'
+        $credenciales = $request->validate([
+            'correo' => 'required|email',
+            'contraseña' => 'required'
         ]);
 
-        // Ruta del archivo JSON
-        $filePath = storage_path('app/roles/usuarios.json');
-
-        if (!file_exists($filePath)) {
-            return back()->withErrors(['error' => 'Error interno: No se encontró la base de datos de usuarios.']);
+        // Cargar el JSON con los datos de admins
+        $ruta = storage_path('app/roles/usuarios.json');
+        
+        if (!File::exists($ruta)) {
+            return response()->json(['error' => 'Archivo de usuarios no encontrado'], 404);
         }
 
-        // Leer y decodificar el archivo JSON
-        $json = file_get_contents($filePath);
-        $users = json_decode($json, true);
+        $usuarios = json_decode(File::get($ruta), true);
+        
+        // Buscar el admin en el JSON
+        foreach ($usuarios as $usuario) {
+            if ($usuario['correo'] === $credenciales['correo']) {
+                // Validar la contraseña
+                if (password_verify($credenciales['contraseña'], $usuario['contraseña'])) {
+                    // Guardar en sesión
+                    Session::put('usuario', [
+                        'correo' => $usuario['correo'],
+                        'rol' => $usuario['rol']
+                    ]);
 
-        if (!$users) {
-            return back()->withErrors(['error' => 'Error interno: No se pudo leer la base de datos de usuarios.']);
+                    // Redirigir según el rol
+                    return redirect()->route('admin');
+                }
+            }
         }
 
-        // Buscar el usuario por email
-        $user = collect($users)->firstWhere('email', $request->email);
-
-        // Validar credenciales y rol
-        if (!$user || !Hash::check($request->password, $user['password']) || $user['role'] !== $request->role) {
-            return back()->withErrors(['error' => 'Credenciales o rol incorrectos.'])->withInput();
-        }
-
-        // Iniciar sesión correctamente
-        $request->session()->put('user', $user);
-        $request->session()->regenerate();
-
-        // rutas según el rol
-        $routes = [
-            'admin' => '/admin',
-            'doctor' => '/doctor',
-            'paciente' => '/paciente'
-        ];
-
-        // Redirigir según el rol del usuario
-        return redirect($routes[$user['role']]);
+        return back()->withErrors(['correo' => 'Credenciales incorrectas']);
     }
 }

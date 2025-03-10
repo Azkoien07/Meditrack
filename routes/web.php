@@ -19,15 +19,15 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.process');
 // Ruta para cerrar sesión
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Ruta protegida con el middleware
+// Rutas protegidas con el middleware
 Route::get('/admin', function () {
     return view('Admin.indexA');
 })->middleware(RoleMiddleware::class.':admin')->name('admin');
 
 Route::get('/doctor', function () {
     return view('Doctor.indexD');
-})->name('doctor');
+})->middleware(RoleMiddleware::class.':doctor')->name('doctor');
 
 Route::get('/paciente', function () {
     return view('Paciente.indexP'); // Vista para Paciente
-})->name('paciente');
+})->middleware(RoleMiddleware::class.':paciente')->name('paciente');
