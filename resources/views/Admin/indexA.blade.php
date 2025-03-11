@@ -17,7 +17,7 @@
         </div>
         <div class="bg-white shadow-md rounded-lg p-4 border-l-4 border-purple-500">
             <h2 class="text-xl font-semibold text-gray-700">Especialidades Médicas</h2>
-            <p class="text-3xl font-bold text-gray-900">--</p> 
+            <p class="text-3xl font-bold text-gray-900">--</p>
         </div>
     </div>
 
@@ -65,7 +65,15 @@
                         <td class="border border-gray-300 px-4 py-2">
                             <select class="border rounded p-1">
                                 <option>Seleccionar</option>
-                            </select>
+                                <option>Pediatría</option>
+                                <option>Psiquiatría</option>
+                                <option>Cardiología</option>
+                                <option>Dermatología</option>
+                                <option>Oftalmología</option>
+                                <option>Neurología</option>
+                                <option>Oncología</option>
+                                <option>Odontología</option>
+                                </select>
                             <button class="bg-blue-500 text-white px-3 py-1 rounded ml-2">Asignar</button>
                         </td>
                     </tr>

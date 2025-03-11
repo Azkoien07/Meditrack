@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\PacienteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\RolesController;
 
 
 Route::get('/', function () {
@@ -30,10 +31,14 @@ Route::get('/doctor', function () {
 })->middleware(RoleMiddleware::class.':doctor')->name('doctor');
 
 Route::get('/paciente', function () {
-    return view('Paciente.indexP'); // Vista para Paciente
+    return view('Paciente.indexP'); 
 })->middleware(RoleMiddleware::class.':paciente')->name('paciente');
 
-Route::post('/register', [AuthController::class, 'register'])->name('register');
+// Ruta para el modal de registro
+Route::post('/register', [RegisterController::class, 'register'])->name('register');
+
+// Ruta para la auntenticacion desde la BD
+Route::post('/authenticate', [RolesController::class, 'authenticate'])->name('authenticate');
 
 // Ruta para alimentar la vista del admin
 Route::get('/admin', [AdminController::class, 'index'])
