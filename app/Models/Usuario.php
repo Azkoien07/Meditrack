@@ -13,18 +13,18 @@ class Usuario extends Authenticatable {
 
     protected $fillable = [
         'correo',
-        'contrasena',
+        'contraseña',
         'rol_id',
     ];
 
     protected $hidden = [
-        'contrasena',
+        'contraseña',
     ];
 
     // Hasheado automático de contraseña
     public function setContrasenaAttribute($value)
     {
-        $this->attributes['contrasena'] = bcrypt($value);
+        $this->attributes['contraseña'] = bcrypt($value);
     }
 
     // Relación N-1 con Rol

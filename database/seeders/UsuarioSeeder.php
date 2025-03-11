@@ -17,10 +17,31 @@ class UsuarioSeeder extends Seeder
             'rol_id' => 3, // ID del rol doctor
         ]);
 
+        Usuario::create([
+            'correo' => 'doctor2@example.com',
+            'contraseña' => Hash::make('doctor456'),
+            'rol_id' => 3, // ID del rol doctor
+        ]);
+        Usuario::create([
+            'correo' => 'doctor3@example.com',
+            'contraseña' => Hash::make('doctor789'),
+            'rol_id' => 3, // ID del rol doctor
+        ]);
+
         // Crear un usuario paciente
         Usuario::create([
             'correo' => 'paciente@example.com',
             'contraseña' => Hash::make('paciente123'),
+            'rol_id' => 2, // ID del rol paciente
+        ]);
+        Usuario::create([
+            'correo' => 'paciente2@example.com',
+            'contraseña' => Hash::make('paciente456'),
+            'rol_id' => 2, // ID del rol paciente
+        ]);
+        Usuario::create([
+            'correo' => 'paciente3@example.com',
+            'contraseña' => Hash::make('paciente789'),
             'rol_id' => 2, // ID del rol paciente
         ]);
     }

@@ -31,7 +31,7 @@ Route::get('/doctor', function () {
 })->middleware(RoleMiddleware::class.':doctor')->name('doctor');
 
 Route::get('/paciente', function () {
-    return view('Paciente.indexP'); 
+    return view('Paciente.indexP');
 })->middleware(RoleMiddleware::class.':paciente')->name('paciente');
 
 // Ruta para el modal de registro
