@@ -4,15 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Models\paciente;
 use Illuminate\Http\Request;
+use App\Services\PacienteService;
 
 class PacienteController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    protected $pacienteService;
+
+    public function __construct(PacienteService $pacienteService)
+    {
+        $this->pacienteService = $pacienteService;
+    }
+
     public function index()
     {
-        //
+        $pacientes = $this->pacienteService->listarPacientes();
+        return view('indexP', compact('pacientes'));
     }
 
     /**
@@ -20,7 +29,7 @@ class PacienteController extends Controller
      */
     public function create()
     {
-        //
+        return view('paciente.create');
     }
 
     /**
