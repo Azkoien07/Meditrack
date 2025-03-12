@@ -6,6 +6,7 @@ use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RolesController;
+use App\Http\Controllers\CitasController;
 
 
 Route::get('/', function () {
@@ -44,3 +45,7 @@ Route::post('/authenticate', [RolesController::class, 'authenticate'])->name('au
 Route::get('/admin', [AdminController::class, 'index'])
     ->middleware(RoleMiddleware::class.':admin')
     ->name('admin');
+
+    
+Route::get('/citas', [CitasController::class, 'index'])->name('citas.index');
+Route::post('/citas', [CitasController::class, 'store'])->name('citas.store');

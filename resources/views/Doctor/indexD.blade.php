@@ -36,7 +36,7 @@
     <!-- Barra de navegación -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Panel del Doctor</a>
+            <a class="navbar-brand" href="#">Doctor</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -46,16 +46,16 @@
                         <a class="nav-link" href="#">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Pacientes</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="#">Citas</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Configuración</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('logout') }}">Cerrar Sesión</a>
+                        <form action="{{ route('logout') }}" method="POST" class="d-flex align-items-center">
+                            @csrf
+                            <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
+                        </form>
                     </li>
                 </ul>
             </div>
