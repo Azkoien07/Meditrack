@@ -81,7 +81,7 @@
     </div>
 
     <!-- Modal para agendar cita -->
-    <div class="modal" id="modalCita" tabindex="-1" aria-labelledby="modalCitaLabel" aria-hidden="true">
+    <div class="modal fade" id="modalCita" tabindex="-1" aria-labelledby="modalCitaLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -148,24 +148,23 @@
                         </div>
                         <button type="submit" class="btn btn-success w-100">Guardar Cita</button>
                     </form>
-                    <!-- Modal de éxito -->
-                    <div class="modal" id="modalExito" tabindex="-1" aria-labelledby="modalExitoLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header bg-success text-white">
-                                    <h5 class="modal-title" id="modalExitoLabel">¡Cita Agregada exitosamente!</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                                </div>
-                                <div class="modal-body text-center">
-                                    <p>Tu cita se ha registrado correctamente.</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Aceptar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal de éxito -->
+    <div class="modal" id="modalExito" tabindex="-1" aria-labelledby="modalExitoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="modalExitoLabel">¡Cita Agregada exitosamente!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p>Tu cita se ha registrado correctamente.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Aceptar</button>
                 </div>
             </div>
         </div>
@@ -220,12 +219,11 @@
                     })
                     .then(html => {
                         console.log("Cita guardada correctamente.");
-
-                        
-                        document.getElementById('formCita').reset();
-
                         var modalCita = bootstrap.Modal.getInstance(document.getElementById('modalCita'));
                         modalCita.hide();
+
+                        document.getElementById('formCita').reset();
+
                         document.getElementById('modalCita').addEventListener('hidden.bs.modal', function() {
                             var modalExito = new bootstrap.Modal(document.getElementById('modalExito'));
                             modalExito.show();
@@ -246,4 +244,5 @@
         });
     </script>
 </body>
+
 </html>
