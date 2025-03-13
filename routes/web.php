@@ -25,15 +25,15 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Rutas protegidas con el middleware
 Route::get('/admin', function () {
     return view('Admin.indexA');
-})->middleware(RoleMiddleware::class.':admin')->name('admin');
+})->middleware(RoleMiddleware::class . ':admin')->name('admin');
 
 Route::get('/doctor', function () {
     return view('Doctor.indexD');
-})->middleware(RoleMiddleware::class.':doctor')->name('doctor');
+})->middleware(RoleMiddleware::class . ':doctor')->name('doctor');
 
 Route::get('/paciente', function () {
     return view('Paciente.indexP');
-})->middleware(RoleMiddleware::class.':paciente')->name('paciente');
+})->middleware(RoleMiddleware::class . ':paciente')->name('paciente');
 
 // Ruta para el modal de registro
 Route::post('/register', [RegisterController::class, 'register'])->name('register');
@@ -43,9 +43,14 @@ Route::post('/authenticate', [RolesController::class, 'authenticate'])->name('au
 
 // Ruta para alimentar la vista del admin
 Route::get('/admin', [AdminController::class, 'index'])
-    ->middleware(RoleMiddleware::class.':admin')
+    ->middleware(RoleMiddleware::class . ':admin')
     ->name('admin');
 
-    
+    // Ruta para agendar cita
+Route::get('/paciente', [CitasController::class, 'index'])
+    ->middleware(RoleMiddleware::class . ':paciente')
+    ->name('paciente');
+
+// Rutas para alimentar la vista de pacientes (Calendario)
 Route::get('/citas', [CitasController::class, 'index'])->name('citas.index');
 Route::post('/citas', [CitasController::class, 'store'])->name('citas.store');

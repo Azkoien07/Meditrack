@@ -2,63 +2,88 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\citas;
+use App\Models\Citas;
+use App\Models\Doctor;
 use Illuminate\Http\Request;
 
 class CitasController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra una lista de todas las citas con los doctores.
      */
     public function index()
     {
-        //
+        $citas = Citas::all();
+        $doctores = Doctor::all();
+
+        return view('paciente.indexP', compact('doctores')); // Pasar ambas variables a la vista
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Muestra el formulario para crear una nueva cita.
      */
     public function create()
     {
-        //
+        $doctores = Doctor::all(); // Obtener todos los doctores
+        return view('paciente.indexP', compact('doctores')); // Pasar los doctores a la vista
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena una nueva cita en la base de datos.
      */
     public function store(Request $request)
     {
-        //
+        // Validar los datos
+        $request->validate([
+            'fecha' => 'required|date',
+            'hora' => 'required',
+            'sede' => 'required|string',
+            'especialidad' => 'required|string',
+            'motivo' => 'nullable|string',
+            'doctor_id' => 'required|exists:doctores,id', // Verifica que el doctor existe en la BD
+        ]);
+
+        // Crear la cita
+        $cita = Citas::create([
+            'fecha' => $request->fecha,
+            'hora' => $request->hora,
+            'sede' => $request->sede,
+            'especialidad' => $request->especialidad,
+            'motivo' => $request->motivo,
+            'doctor_id' => $request->doctor_id,
+        ]);
+
+        return redirect()->route('paciente')->with('success', 'Cita creada correctamente.');
     }
 
     /**
-     * Display the specified resource.
+     * Muestra una cita específica.
      */
-    public function show(citas $citas)
+    public function show(Citas $citas)
     {
         //
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Muestra el formulario para editar una cita.
      */
-    public function edit(citas $citas)
+    public function edit(Citas $citas)
     {
         //
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza la cita en la base de datos.
      */
-    public function update(Request $request, citas $citas)
+    public function update(Request $request, Citas $citas)
     {
         //
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina una cita de la base de datos.
      */
-    public function destroy(citas $citas)
+    public function destroy(Citas $citas)
     {
         //
     }

@@ -5,11 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class Doctor extends Model{
+    protected $table = 'doctores';
+    
     protected $fillable =[
         'nombre',
         'apellido',
         'genero',
         'turno',
+        'usuario_id',
     ];
 
     // Relación (1-1) con Usuario

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->time('hora');
             $table->string('sede');
             $table->enum('estado', ['Pendiente','Cancelada','Realizada']) -> default('Pendiente');
-            $table->string('direccion');
             // Relaciones
             // Relacion (N:1) con la tabla de Doctor
             $table->foreignId('doctor_id')->constrained('doctores')->onDelete('cascade');

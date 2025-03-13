@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\doctor;
+use App\Models\Doctor;
 use Illuminate\Http\Request;
+use App\Models\Citas;
 
 class DoctorController extends Controller
 {
@@ -20,16 +21,21 @@ class DoctorController extends Controller
      */
     public function create()
     {
-        //
+        $doctores = Doctor::all(); // Asegúrate de que el modelo `Doctor` existe y está importado
+        return view('paciente.indexP', compact('doctores'));
     }
+
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $cita = Citas::create($request->all());
+        $doctores = Doctor::all();  // Asegúrate de obtener los doctores nuevamente
+        return view('[aciente.indexP', compact('doctores'))->with('success', 'Cita creada con éxito');
     }
+
 
     /**
      * Display the specified resource.

@@ -9,7 +9,6 @@ class Citas extends Model{
         'hora',
         'sede',
         'estado',
-        'direccion',
         'doctor_id',
         'especialidad_id'
     ];
