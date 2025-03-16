@@ -54,3 +54,4 @@ Route::get('/paciente', [CitasController::class, 'index'])
 // Rutas para alimentar la vista de pacientes (Calendario)
 Route::get('/citas', [CitasController::class, 'index'])->name('citas.index');
 Route::post('/citas', [CitasController::class, 'store'])->name('citas.store');
+

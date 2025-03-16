@@ -21,6 +21,8 @@ return new class extends Migration
             // Relaciones
             // Relacion (N:1) con la tabla de Doctor
             $table->foreignId('doctor_id')->constrained('doctores')->onDelete('cascade');
+            // Relación (N:1) con la tabla de Pacientes
+            $table->foreignId('paciente_id')->constrained('pacientes')->onDelete('cascade');
             $table->timestamps();
         });
     }

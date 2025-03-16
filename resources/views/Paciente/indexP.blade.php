@@ -173,76 +173,74 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                locale: 'es',
-                selectable: true,
-                select: function(info) {
-                    document.getElementById('fechaCita').value = info.startStr;
-                    var modal = new bootstrap.Modal(document.getElementById('modalCita'));
-                    modal.show();
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'es',
+        selectable: true,
+        select: function(info) {
+            document.getElementById('fechaCita').value = info.startStr;
+            var modal = new bootstrap.Modal(document.getElementById('modalCita'));
+            modal.show();
+        },
+        events: "{{ route('citas.store') }}"
+    });
+
+    calendar.render();
+
+    // Enviar formulario de cita
+    document.getElementById('formCita').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = {
+            fecha: document.getElementById('fechaCita').value,
+            hora: document.getElementById('horaCita').value,
+            sede: document.getElementById('sede').value,
+            especialidad: document.getElementById('especialidad_cita').value,
+            motivo: document.getElementById('motivoCita').value,
+            doctor_id: document.getElementById('doctor_id').value,
+        };
+
+        fetch("{{ route('citas.store') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
                 },
-                events: "{{ route('citas.store') }}"
-            });
-
-            calendar.render();
-
-            // Enviar formulario de cita
-            document.getElementById('formCita').addEventListener('submit', function(e) {
-                e.preventDefault();
-
-                const formData = {
-                    fecha: document.getElementById('fechaCita').value,
-                    hora: document.getElementById('horaCita').value,
-                    sede: document.getElementById('sede').value,
-                    especialidad: document.getElementById('especialidad_cita').value,
-                    motivo: document.getElementById('motivoCita').value,
-                    doctor_id: document.getElementById('doctor_id').value
-                };
-
-                fetch("{{ route('citas.store') }}", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded",
-                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
-                        },
-                        body: new URLSearchParams(formData)
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            return response.text().then(text => {
-                                throw new Error(text);
-                            });
-                        }
-                        return response.text();
-                    })
-                    .then(html => {
-                        console.log("Cita guardada correctamente.");
-                        var modalCita = bootstrap.Modal.getInstance(document.getElementById('modalCita'));
-                        modalCita.hide();
-
-                        document.getElementById('formCita').reset();
-
-                        document.getElementById('modalCita').addEventListener('hidden.bs.modal', function() {
-                            var modalExito = new bootstrap.Modal(document.getElementById('modalExito'));
-                            modalExito.show();
-                        });
-
-                        // Agregar el evento al calendario
-                        calendar.addEvent({
-                            title: `${formData.especialidad} - ${formData.hora}`,
-                            start: formData.fecha,
-                            allDay: true
-                        });
-                    })
-                    .catch(error => {
-                        console.error("Error en la solicitud:", error);
-                        alert("Ocurrió un error al registrar la cita.");
+                body: new URLSearchParams(formData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        throw new Error(text);
                     });
+                }
+                return response.text();
+            })
+            .then(html => {
+                console.log("Cita guardada correctamente.");
+                var modalCita = bootstrap.Modal.getInstance(document.getElementById('modalCita'));
+                modalCita.hide();
+
+                document.getElementById('formCita').reset();
+
+
+                var modalExito = new bootstrap.Modal(document.getElementById('modalExito'));
+                modalExito.show();
+
+
+                // Agregar el evento al calendario
+                calendar.addEvent({
+                    title: `${formData.especialidad} - ${formData.hora}`,
+                    start: formData.fecha,
+                    allDay: true
+                });
+            })
+            .catch(error => {
+                console.error("Error en la solicitud:", error);
+                alert("Ocurrió un error al registrar la cita.");
             });
-        });
+    });
+});
     </script>
 </body>
-
 </html>

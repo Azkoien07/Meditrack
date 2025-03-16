@@ -95,7 +95,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('register') }}" method="POST">
+                    <form method="POST" action="{{ route('register') }}">
                         @csrf
                         <div class="mb-3">
                             <label for="rol_register" class="form-label">Rol</label>
@@ -103,7 +103,8 @@
                                 <option value="paciente" selected>Paciente</option>
                             </select>
                         </div>
-
+                        
+                        <!-- Campos del usuario -->
                         <div class="mb-3">
                             <label for="correo_register" class="form-label">Correo Electrónico</label>
                             <input type="email" name="correo" id="correo_register" class="form-control" required>
@@ -115,19 +116,71 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="confirmar_contraseña_register" class="form-label">Confirmar Contraseña</label>
-                            <input type="password" name="contraseña_confirmation" id="confirmar_contraseña_register" class="form-control" required>
+                            <label for="contraseña_confirmation" class="form-label">Confirmar Contraseña</label>
+                            <input type="password" name="contraseña_confirmation" id="contraseña_confirmation" class="form-control" required>
                         </div>
 
-                        <input type="hidden" name="rol" value="paciente">
-
-                        <button type="submit" class="btn btn-success w-100">Registrarse</button>
-
-                        @if(session('success'))
-                        <div class="alert alert-success mt-3">
-                            {{ session('success') }}
+                        <!-- Campos del paciente -->
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" name="nombre" id="nombre" class="form-control" required>
                         </div>
-                        @endif
+
+                        <div class="mb-3">
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input type="text" name="apellido" id="apellido" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="edad" class="form-label">Edad</label>
+                            <input type="text" name="edad" id="edad" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="genero" class="form-label">Género</label>
+                            <select name="genero" id="genero" class="form-control" required>
+                                <option value="Masculino">Masculino</option>
+                                <option value="Femenino">Femenino</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="telefono" class="form-label">Teléfono</label>
+                            <input type="text" name="telefono" id="telefono" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="tipo_identificacion" class="form-label">Tipo de Identificación</label>
+                            <select name="tipo_identificacion" id="tipo_identificacion" class="form-control" required>
+                                <option value="CC">Cédula de Ciudadanía (CC)</option>
+                                <option value="CE">Cédula de Extranjería (CE)</option>
+                                <option value="TI">Tarjeta de Identidad (TI)</option>
+                                <option value="RC">Registro Civil (RC)</option>
+                                <option value="PA">Pasaporte (PA)</option>
+                                <option value="MS">Menor Sin Identificación (MS)</option>
+                                <option value="NIT">NIT</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="identificacion" class="form-label">Número de Identificación</label>
+                            <input type="text" name="identificacion" id="identificacion" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="eps" class="form-label">EPS</label>
+                            <input type="text" name="eps" id="eps" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="f_nacimiento" class="form-label">Fecha de Nacimiento</label>
+                            <input type="date" name="f_nacimiento" id="f_nacimiento" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary">Registrarse</button>
+                        </div>
                     </form>
                 </div>
             </div>

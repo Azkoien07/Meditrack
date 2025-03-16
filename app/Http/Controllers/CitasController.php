@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Citas;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class CitasController extends Controller
 {
@@ -16,7 +18,7 @@ class CitasController extends Controller
         $citas = Citas::all();
         $doctores = Doctor::all();
 
-        return view('paciente.indexP', compact('doctores')); // Pasar ambas variables a la vista
+        return view('paciente.indexP', compact('doctores'));
     }
 
     /**
@@ -33,29 +35,36 @@ class CitasController extends Controller
      */
     public function store(Request $request)
     {
-        // Validar los datos
-        $request->validate([
+        // Verificar si el usuario está autenticado (usando la sesión)
+        if (!session()->has('usuario')) {
+            return redirect()->route('login')->withErrors(['error' => 'Debes iniciar sesión para crear una cita.']);
+        }
+
+
+        // Obtener el ID del paciente desde la sesión
+        $pacienteId = session('usuario.id');
+        Log::info('ID del paciente autenticado:', ['id' => $pacienteId]);
+
+        // Validar los datos de la solicitud
+        $validatedData = $request->validate([
             'fecha' => 'required|date',
-            'hora' => 'required',
+            'hora' => 'required|date_format:H:i',
             'sede' => 'required|string',
-            'especialidad' => 'required|string',
-            'motivo' => 'nullable|string',
-            'doctor_id' => 'required|exists:doctores,id', // Verifica que el doctor existe en la BD
+            'doctor_id' => 'required|exists:doctores,id',
         ]);
 
-        // Crear la cita
-        $cita = Citas::create([
-            'fecha' => $request->fecha,
-            'hora' => $request->hora,
-            'sede' => $request->sede,
-            'especialidad' => $request->especialidad,
-            'motivo' => $request->motivo,
-            'doctor_id' => $request->doctor_id,
-        ]);
+        // Crear la cita en la base de datos
+        $cita = new Citas();
+        $cita->fecha = $validatedData['fecha'];
+        $cita->hora = $validatedData['hora'];
+        $cita->sede = $validatedData['sede'];
+        $cita->doctor_id = $validatedData['doctor_id'];
+        $cita->paciente_id = $pacienteId;
+        $cita->save();
 
-        return redirect()->route('paciente')->with('success', 'Cita creada correctamente.');
+        // Redirigir con un mensaje de éxito
+        return redirect()->route('citas.index')->with('success', 'Cita creada exitosamente.');
     }
-
     /**
      * Muestra una cita específica.
      */
