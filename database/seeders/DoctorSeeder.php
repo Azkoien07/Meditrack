@@ -18,7 +18,7 @@ class DoctorSeeder extends Seeder{
             'apellido' => 'Ruiz',
             'genero' => 'masculino',
             'turno' => 'mañana',
-            'usuario_id' => 1,
+            'usuario_id' => 2,
         ]);
     }
 }

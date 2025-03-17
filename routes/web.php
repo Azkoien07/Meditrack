@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\CitasController;
+use App\Http\Controllers\DoctorController;
 
 
 Route::get('/', function () {
@@ -46,7 +47,7 @@ Route::get('/admin', [AdminController::class, 'index'])
     ->middleware(RoleMiddleware::class . ':admin')
     ->name('admin');
 
-    // Ruta para agendar cita
+// Ruta para agendar cita
 Route::get('/paciente', [CitasController::class, 'index'])
     ->middleware(RoleMiddleware::class . ':paciente')
     ->name('paciente');
@@ -54,4 +55,10 @@ Route::get('/paciente', [CitasController::class, 'index'])
 // Rutas para alimentar la vista de pacientes (Calendario)
 Route::get('/citas', [CitasController::class, 'index'])->name('citas.index');
 Route::post('/citas', [CitasController::class, 'store'])->name('citas.store');
+
+// Ruta para mostrar el formulario de creación
+Route::get('/doctores/create', [DoctorController::class, 'index'])->name('Doctor.createD');
+
+// Ruta para procesar el formulario (método POST)
+Route::post('/doctores', [DoctorController::class, 'store'])->name('doctores.store');
 

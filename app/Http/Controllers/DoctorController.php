@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Doctor;
 use Illuminate\Http\Request;
-use App\Models\Citas;
+use App\Models\Rol;
+use App\Models\Usuario;
+use Illuminate\Support\Facades\Hash;
 
 class DoctorController extends Controller
 {
@@ -13,17 +15,13 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        //
+        return view('Doctor.createD');
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        $doctores = Doctor::all(); // Asegúrate de que el modelo `Doctor` existe y está importado
-        return view('paciente.indexP', compact('doctores'));
-    }
+    public function create() {}
 
 
     /**
@@ -31,9 +29,40 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-        $cita = Citas::create($request->all());
-        $doctores = Doctor::all();  // Asegúrate de obtener los doctores nuevamente
-        return view('[aciente.indexP', compact('doctores'))->with('success', 'Cita creada con éxito');
+        // Validación de los campos
+        $request->validate([
+            'correo' => 'required|email|unique:usuarios,correo',
+            'contraseña' => 'required|min:8',
+            'nombre' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
+            'genero' => 'required|string|max:50',
+            'turno' => 'required|string|max:50',
+        ]);
+
+        // Obtener el rol_id correspondiente al rol "doctor"
+        $rolDoctor = Rol::where('nombre', 'doctor')->first();
+        if (!$rolDoctor) {
+            return redirect()->back()->with('error', 'El rol "doctor" no existe en la base de datos.');
+        }
+
+        // Crea un nuevo usuario en la tabla usuarios
+        $usuario = Usuario::create([
+            'correo' => $request->correo,
+            'contraseña' => Hash::make($request->contraseña),
+            'rol_id' => $rolDoctor->id,
+        ]);
+
+        // Crear un nuevo doctor en la tabla doctores
+        $doctor = Doctor::create([
+            'usuario_id' => $usuario->id,
+            'nombre' => $request->nombre,
+            'apellido' => $request->apellido,
+            'genero' => $request->genero,
+            'turno' => $request->turno,
+        ]);
+
+        // Redireccionar
+        return redirect()->route('admin')->with('success', 'Doctor creado exitosamente.');
     }
 
 

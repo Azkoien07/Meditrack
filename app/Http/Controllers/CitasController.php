@@ -26,8 +26,8 @@ class CitasController extends Controller
      */
     public function create()
     {
-        $doctores = Doctor::all(); // Obtener todos los doctores
-        return view('paciente.indexP', compact('doctores')); // Pasar los doctores a la vista
+        $doctores = Doctor::all();
+        return view('paciente.indexP', compact('doctores'));
     }
 
     /**
@@ -53,7 +53,7 @@ class CitasController extends Controller
             'doctor_id' => 'required|exists:doctores,id',
         ]);
 
-        // Crear la cita en la base de datos
+        // Crea la cita en la base de datos
         $cita = new Citas();
         $cita->fecha = $validatedData['fecha'];
         $cita->hora = $validatedData['hora'];

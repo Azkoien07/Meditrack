@@ -16,17 +16,5 @@ class UsuarioSeeder extends Seeder
             'contraseña' => Hash::make('doctor123'),
             'rol_id' => 3, // ID del rol doctor
         ]);
-
-        Usuario::create([
-            'correo' => 'doctor2@example.com',
-            'contraseña' => Hash::make('doctor456'),
-            'rol_id' => 3, // ID del rol doctor
-        ]);
-        // Crear un usuario paciente
-        Usuario::create([
-            'correo' => 'paciente@example.com',
-            'contraseña' => Hash::make('paciente123'),
-            'rol_id' => 2, // ID del rol paciente
-        ]);
     }
 }
