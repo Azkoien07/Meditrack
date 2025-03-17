@@ -50,6 +50,14 @@ Configura la conexión a PostgreSQL en el archivo `.env`:
 ```
 ### 5. Migrar la base de datos
 ```bash
+php artisan migrate --path=database/migrations/2025_03_06_232041_create_roles_table.php
+php artisan migrate --path=database/migrations/2025_03_06_232118_create_usuarios_table.php
+php artisan migrate --path=database/migrations/2025_03_06_232146_create_pacientes_table.php
+php artisan migrate --path=database/migrations/2025_03_06_232315_create_citas_table.php
+php artisan migrate --path=database/migrations/2025_03_06_232352_create_doctores_table.php
+php artisan migrate --path=database/migrations/2025_03_06_232506_create_especialidades_table.php
+php artisan migrate --path=database/migrations/2025_03_06_232539_create_doctor_especialidad_table.php
+
  php artisan migrate
 ```
 ### 6. Iniciar el servidor local
