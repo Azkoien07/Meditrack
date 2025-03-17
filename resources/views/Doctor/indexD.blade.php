@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel del Doctor</title>
-    <!-- Tailwind CSS -->
+    <!-- Tailwind -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-50 flex flex-col min-h-screen">
@@ -19,8 +19,6 @@
                     </svg>
                 </button>
                 <div class="hidden lg:flex space-x-4">
-                    <a href="#" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-lg transition-all">Inicio</a>
-                    <a href="#" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-lg transition-all">Citas</a>
                     <a href="#" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-lg transition-all">Configuración</a>
                     <form action="{{ route('logout') }}" method="POST" class="flex items-center">
                         @csrf
@@ -41,10 +39,43 @@
                 <div class="p-6">
                     <p class="text-gray-700 mb-6">Aquí puedes gestionar tus pacientes, citas y más.</p>
                     <div class="flex space-x-4">
-                        <a href="#" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-all">Ver Citas</a>
-                        <a href="#" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-all">Ver Pacientes</a>
+                        <button onclick="mostrarCitas()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-all">
+                            Ver Citas
+                        </button>
+                        <a href="{{ route('doctor.pacientes') }}" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-all">Ver Pacientes</a>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Tabla de citas (Oculta por defecto) -->
+        <div id="citasContainer" class="mt-6 hidden">
+            <h2 class="text-xl font-bold mb-4">Tus Citas</h2>
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <table class="min-w-full bg-white border border-gray-300">
+                    <thead>
+                        <tr class="bg-blue-600 text-white">
+                            <th class="py-2 px-4 border">Fecha</th>
+                            <th class="py-2 px-4 border">Hora</th>
+                            <th class="py-2 px-4 border">Sede</th>
+                            <th class="py-2 px-4 border">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($citas as $cita)
+                        <tr class="border">
+                            <td class="py-2 px-4 border">{{ $cita->fecha }}</td>
+                            <td class="py-2 px-4 border">{{ $cita->hora }}</td>
+                            <td class="py-2 px-4 border">{{ $cita->sede }}</td>
+                            <td class="py-2 px-4 border">{{ $cita->estado }}</td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="4" class="py-2 px-4 text-center text-gray-500">No tienes citas registradas.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -55,5 +86,11 @@
             <p class="text-gray-600 mb-0">&copy; 2025 MediTrack. Todos los derechos reservados.</p>
         </div>
     </footer>
+
+    <script>
+        function mostrarCitas() {
+            document.getElementById('citasContainer').classList.toggle('hidden');
+        }
+    </script>
 </body>
 </html>

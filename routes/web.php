@@ -10,55 +10,38 @@ use App\Http\Controllers\CitasController;
 use App\Http\Controllers\DoctorController;
 
 
+// Página de inicio (Login)
 Route::get('/', function () {
     return view('auth.login');
 });
 
-// Ruta para mostrar el formulario de login
+// Autenticación
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-
-// Ruta para procesar el formulario de login
 Route::post('/login', [AuthController::class, 'login'])->name('login.process');
-
-// Ruta para cerrar sesión
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Rutas protegidas con el middleware
-Route::get('/admin', function () {
-    return view('Admin.indexA');
-})->middleware(RoleMiddleware::class . ':admin')->name('admin');
-
-Route::get('/doctor', function () {
-    return view('Doctor.indexD');
-})->middleware(RoleMiddleware::class . ':doctor')->name('doctor');
-
-Route::get('/paciente', function () {
-    return view('Paciente.indexP');
-})->middleware(RoleMiddleware::class . ':paciente')->name('paciente');
-
-// Ruta para el modal de registro
+// Registro de usuarios
 Route::post('/register', [RegisterController::class, 'register'])->name('register');
 
-// Ruta para la auntenticacion desde la BD
+// Autenticación basada en roles
 Route::post('/authenticate', [RolesController::class, 'authenticate'])->name('authenticate');
 
-// Ruta para alimentar la vista del admin
-Route::get('/admin', [AdminController::class, 'index'])
-    ->middleware(RoleMiddleware::class . ':admin')
-    ->name('admin');
+// Rutas protegidas con middleware según el rol
+Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+});
 
-// Ruta para agendar cita
-Route::get('/paciente', [CitasController::class, 'index'])
-    ->middleware(RoleMiddleware::class . ':paciente')
-    ->name('paciente');
+Route::middleware([RoleMiddleware::class . ':doctor'])->group(function () {
+    Route::get('/doctor', [DoctorController::class, 'index'])->name('doctor');
+    Route::get('/doctores/create', [DoctorController::class, 'create'])->name('Doctor.createD');
+    Route::post('/doctores', [DoctorController::class, 'store'])->name('doctores.store');
+    Route::get('/doctor/pacientes', [DoctorController::class, 'verPacientes'])->name('doctor.pacientes');
+});
 
-// Rutas para alimentar la vista de pacientes (Calendario)
+Route::middleware([RoleMiddleware::class . ':paciente'])->group(function () {
+    Route::get('/paciente', [CitasController::class, 'index'])->name('paciente');
+});
+
+//  Gestión de citas
 Route::get('/citas', [CitasController::class, 'index'])->name('citas.index');
 Route::post('/citas', [CitasController::class, 'store'])->name('citas.store');
-
-// Ruta para mostrar el formulario de creación
-Route::get('/doctores/create', [DoctorController::class, 'index'])->name('Doctor.createD');
-
-// Ruta para procesar el formulario (método POST)
-Route::post('/doctores', [DoctorController::class, 'store'])->name('doctores.store');
-

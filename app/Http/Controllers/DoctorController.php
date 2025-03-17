@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Citas;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
 use App\Models\Rol;
 use App\Models\Usuario;
+use App\Models\Paciente;
+
 use Illuminate\Support\Facades\Hash;
 
 class DoctorController extends Controller
@@ -13,15 +16,40 @@ class DoctorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('Doctor.createD');
+        $usuario = $request->session()->get('usuario');
+
+        if (!$usuario) {
+            return redirect()->route('login')->with('error', 'No tienes una sesión activa.');
+        }
+
+        $doctor = Doctor::where('usuario_id', $usuario['id'])->first();
+
+        if (!$doctor) {
+            return redirect()->route('login')->with('error', 'No tienes permisos para acceder.');
+        }
+
+        $citas = Citas::where('doctor_id', $doctor->id)->get();
+
+        return view('Doctor.indexD', compact('citas'));
     }
 
+    public function verPacientes()
+    {
+        // Obtener todos los pacientes desde la tabla "pacientes"
+        $pacientes = Paciente::all();
+
+
+        return view('Doctor.pacientes', compact('pacientes'));
+    }
     /**
      * Show the form for creating a new resource.
      */
-    public function create() {}
+    public function create()
+    {
+        return view('Doctor.createD');
+    }
 
 
     /**
@@ -54,7 +82,7 @@ class DoctorController extends Controller
 
         // Crear un nuevo doctor en la tabla doctores
         $doctor = Doctor::create([
-            'usuario_id' => $usuario->id,
+            'usuario' => $usuario->id,
             'nombre' => $request->nombre,
             'apellido' => $request->apellido,
             'genero' => $request->genero,

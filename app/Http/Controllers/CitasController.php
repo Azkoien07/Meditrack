@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Citas;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class CitasController extends Controller
