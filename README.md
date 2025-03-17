@@ -58,7 +58,7 @@ php artisan migrate --path=database/migrations/2025_03_06_232352_create_doctores
 php artisan migrate --path=database/migrations/2025_03_06_232506_create_especialidades_table.php
 php artisan migrate --path=database/migrations/2025_03_06_232539_create_doctor_especialidad_table.php
 
- php artisan migrate
+php artisan migrate
 ```
 ### 6. Iniciar el servidor local
 ```bash
