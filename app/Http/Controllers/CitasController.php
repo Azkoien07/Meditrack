@@ -17,7 +17,7 @@ class CitasController extends Controller
         $citas = Citas::all();
         $doctores = Doctor::all();
 
-        return view('paciente.indexP', compact('doctores'));
+        return view('Paciente.indexP', compact('doctores'));
     }
 
     /**
@@ -26,7 +26,7 @@ class CitasController extends Controller
     public function create()
     {
         $doctores = Doctor::all();
-        return view('paciente.indexP', compact('doctores'));
+        return view('Paciente.indexP', compact('doctores'));
     }
 
     /**

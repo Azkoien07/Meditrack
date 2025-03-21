@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('Layouts.App')
 
 @section('content')
 <title>Admin</title>
@@ -40,8 +40,12 @@
                     <td class="border border-gray-300 px-3 py-2 sm:px-4 sm:py-2">{{ $paciente->correo }}</td>
                     <td class="border border-gray-300 px-3 py-2 sm:px-4 sm:py-2">{{ $paciente->created_at->format('d/m/Y') }}</td>
                     <td>
-                        <button class="bg-yellow-500 text-white px-2 py-1 sm:px-3 sm:py-1 rounded ml-2 text-sm sm:text-base">Editar</button>
-                        <button class="bg-red-500 text-white px-2 py-1 sm:px-3 sm:py-1 rounded ml-2 text-sm sm:text-base">Eliminar</button>
+                        <a href="{{ route('admin.editar', $paciente->id) }}" class="bg-yellow-500 text-white px-2 py-1 sm:px-3 sm:py-1 rounded ml-2 text-sm sm:text-base">Editar</a>
+                        <form action="{{ route('admin.eliminar', $paciente->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button class="bg-red-500 text-white px-3 grid-cols-2 py-1 rounded text-sm sm:text-base min-w-[100px] sm:min-w-[auto]" type="submit" onclick="return confirm('¿Seguro que deseas eliminar este usuario?')">Eliminar</button>
+                        </form>
                     </td>
                 </tr>
                 @endforeach
@@ -84,7 +88,11 @@
                             <div class="flex flex-wrap sm:flex-nowrap gap-2 sm:gap-3 justify-center sm:justify-start">
                                 <button class="bg-blue-500 text-white px-3 py-1 rounded text-sm sm:text-base min-w-[100px] sm:min-w-[auto]">Asignar</button>
                                 <button class="bg-yellow-500 text-white px-3 py-1 rounded text-sm sm:text-base min-w-[100px] sm:min-w-[auto]">Editar</button>
-                                <button class="bg-red-500 text-white px-3 py-1 rounded text-sm sm:text-base min-w-[100px] sm:min-w-[auto]">Eliminar</button>
+                                <form action="{{ route('admin.eliminar', $doctor->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="bg-red-500 text-white px-3 py-1 rounded text-sm sm:text-base min-w-[100px] sm:min-w-[auto]" type="submit" onclick="return confirm('¿Seguro que deseas eliminar este doctor?')">Eliminar</button>
+                                </form>
                             </div>
                         </div>
                     </td>

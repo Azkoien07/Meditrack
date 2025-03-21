@@ -53,7 +53,7 @@ class AuthController extends Controller
         $usuario = Usuario::where('correo', $credenciales['correo'])->first();
 
         if ($usuario && password_verify($credenciales['contraseña'], $usuario->contraseña)) {
-            
+
             // Guardar información en la sesión
             Session::put('usuario', [
                 'id' => $usuario->id,

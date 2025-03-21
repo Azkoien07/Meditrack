@@ -1,6 +1,7 @@
-@extends('layouts.app')
+@extends('Layouts.App')
 
 @section('content')
+
 <head>
     <title>Crear Doctor</title>
 </head>
@@ -66,4 +67,4 @@
             </div>
         </form>
     </div>
-@endsection
+    @endsection

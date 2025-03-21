@@ -9,7 +9,6 @@ use App\Http\Controllers\RolesController;
 use App\Http\Controllers\CitasController;
 use App\Http\Controllers\DoctorController;
 
-
 // Página de inicio (Login)
 Route::get('/', function () {
     return view('auth.login');
@@ -29,19 +28,22 @@ Route::post('/authenticate', [RolesController::class, 'authenticate'])->name('au
 // Rutas protegidas con middleware según el rol
 Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+    Route::delete('/admin/eliminar/{id}', [AdminController::class, 'eliminar'])->name('admin.eliminar');
+    Route::get('/admin/editar/{id}', [AdminController::class, 'editar'])->name('admin.editar');
+    Route::put('/admin/actualizar/{id}', [AdminController::class, 'actualizar'])->name('admin.actualizar');
 });
 
-Route::middleware([RoleMiddleware::class . ':doctor'])->group(function () {
-    Route::get('/doctor', [DoctorController::class, 'index'])->name('doctor');
-    Route::get('/doctores/create', [DoctorController::class, 'create'])->name('Doctor.createD');
-    Route::post('/doctores', [DoctorController::class, 'store'])->name('doctores.store');
-    Route::get('/doctor/pacientes', [DoctorController::class, 'verPacientes'])->name('doctor.pacientes');
-});
+
+Route::middleware([RoleMiddleware::class . ':doctor'])->group(function () {});
+Route::get('/doctor/pacientes', [DoctorController::class, 'verPacientes'])->name('doctor.pacientes');
+Route::get('/doctor', [DoctorController::class, 'index'])->name('doctor');
+Route::post('/doctores', [DoctorController::class, 'store'])->name('doctores.store');
+Route::get('/doctores/create', [DoctorController::class, 'create'])->name('Doctor.createD');
 
 Route::middleware([RoleMiddleware::class . ':paciente'])->group(function () {
     Route::get('/paciente', [CitasController::class, 'index'])->name('paciente');
 });
 
-//  Gestión de citas
+//  Rutass para gestión de citas
 Route::get('/citas', [CitasController::class, 'index'])->name('citas.index');
 Route::post('/citas', [CitasController::class, 'store'])->name('citas.store');

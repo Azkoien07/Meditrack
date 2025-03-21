@@ -37,7 +37,6 @@ class DoctorController extends Controller
 
     public function verPacientes()
     {
-        // Obtener todos los pacientes desde la tabla "pacientes"
         $pacientes = Paciente::all();
 
 
@@ -82,7 +81,7 @@ class DoctorController extends Controller
 
         // Crear un nuevo doctor en la tabla doctores
         $doctor = Doctor::create([
-            'usuario' => $usuario->id,
+            'usuario_id' => $usuario->id,
             'nombre' => $request->nombre,
             'apellido' => $request->apellido,
             'genero' => $request->genero,
@@ -92,6 +91,7 @@ class DoctorController extends Controller
         // Redireccionar
         return redirect()->route('admin')->with('success', 'Doctor creado exitosamente.');
     }
+
 
 
     /**
