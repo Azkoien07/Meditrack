@@ -6,9 +6,18 @@ use App\Models\Usuario;
 use App\Models\Paciente;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
+use App\Services\PdfService;
 
 class AdminController extends Controller
-{
+{   // Define la propiedad $pdfService
+    protected $pdfService;
+
+    // Inyecta el servicio PdfService en el constructor
+    public function __construct(PdfService $pdfService)
+    {
+        $this->pdfService = $pdfService;
+    }
+
     public function index()
     {
         // Obtener los usuarios según su rol
@@ -97,7 +106,7 @@ class AdminController extends Controller
         } else {
             return back()->with('error', 'Rol no válido.');
         }
-        
+
         $persona = null;
 
         if ($usuario->rol->nombre === 'doctor') {
@@ -116,5 +125,32 @@ class AdminController extends Controller
         }
 
         return back()->with('info', 'No se realizaron cambios.');
+    }
+    public function descargarReportePacientes()
+    {
+        // Obtener los datos de los pacientes desde la base de datos
+        $pacientes = Paciente::all();
+
+        // Convertir los datos a un array para pasarlos a la vista
+        $data = $pacientes->map(function ($paciente) {
+            return [
+                'id' => $paciente->id,
+                'nombre' => $paciente->nombre,
+                'apellido' => $paciente->apellido,
+                'edad' => $paciente->edad,
+                'genero' => $paciente->genero,
+                'telefono' => $paciente->telefono,
+                'tipo_identificacion' => $paciente->tipo_identificacion,
+                'identificacion' => $paciente->identificacion,
+                'eps' => $paciente->eps,
+                'f_nacimiento' => $paciente->f_nacimiento,
+            ];
+        })->toArray();
+
+        // Generar el PDF
+        $pdf = $this->pdfService->generatePatientReport($data);
+
+        // Descargar el PDF
+        return $pdf->download('reporte_pacientes.pdf');
     }
 }

@@ -39,7 +39,6 @@
             <div class="flex justify-between items-center py-4">
                 <a href="#" class="text-white text-2xl font-bold">MediTrack</a>
                 <div class="flex space-x-4">
-                    <a href="#" class="text-white hover:bg-blue-700 px-3 py-2 rounded-lg transition-all">Descargar Historial</a>
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-all">Cerrar Sesión</button>

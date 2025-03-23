@@ -41,6 +41,7 @@
                     <td class="border border-gray-300 px-3 py-2 sm:px-4 sm:py-2">{{ $paciente->created_at->format('d/m/Y') }}</td>
                     <td class="border border-gray-300 px-3 py-2 sm:px-4 sm:py-2">
                         <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+                            <a href="{{ route('admin.descargar.reporte') }}" class="text-white bg-blue-500 hover:bg-blue-700 px-3 py-2 rounded-lg transition-all">Descargar Historial</a>
                             <a href="{{ route('admin.editar', $paciente->id) }}" class="bg-yellow-500 text-white px-3 py-1 rounded text-sm sm:text-base transition-all hover:bg-yellow-600">Editar</a>
                             <form action="{{ route('admin.eliminar', $paciente->id) }}" method="POST">
                                 @csrf

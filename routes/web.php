@@ -28,6 +28,7 @@ Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
     Route::delete('/admin/eliminar/{id}', [AdminController::class, 'eliminar'])->name('admin.eliminar');
     Route::get('/admin/editar/{id}', [AdminController::class, 'editar'])->name('admin.editar');
     Route::put('/admin/actualizar/{id}', [AdminController::class, 'actualizar'])->name('admin.actualizar');
+    Route::get('/admin/descargar-reporte', [AdminController::class, 'descargarReportePacientes'])->name('admin.descargar.reporte');
 });
 
 

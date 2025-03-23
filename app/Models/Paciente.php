@@ -16,7 +16,7 @@ class Paciente extends Model
         'identificacion',
         'eps',
         'f_nacimiento',
-        'usuario_id' // Asegúrate de incluir usuario_id en el fillable
+        'usuario_id'
     ];
 
     // Relación (1-1) con Usuario
