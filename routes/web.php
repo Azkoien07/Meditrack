@@ -22,9 +22,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Registro de usuarios
 Route::post('/register', [RegisterController::class, 'register'])->name('register');
 
-// Autenticación basada en roles
-Route::post('/authenticate', [RolesController::class, 'authenticate'])->name('authenticate');
-
 // Rutas protegidas con middleware según el rol
 Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin');
@@ -36,12 +33,11 @@ Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
 
 Route::middleware([RoleMiddleware::class . ':doctor'])->group(function () {
     Route::get('/doctor', [DoctorController::class, 'index'])->name('doctor');
-
+    Route::get('/doctor/pacientes', [DoctorController::class, 'verPacientes'])->name('doctor.pacientes');
+    Route::post('/doctores', [DoctorController::class, 'store'])->name('doctores.store');
 });
-Route::get('/doctor/pacientes', [DoctorController::class, 'verPacientes'])->name('doctor.pacientes');
-Route::post('/doctores', [DoctorController::class, 'store'])->name('doctores.store');
-Route::get('/doctores/create', [DoctorController::class, 'create'])->name('Doctor.createD');
 
+Route::get('/doctores/create', [DoctorController::class, 'create'])->name('Doctor.createD');
 
 Route::middleware([RoleMiddleware::class . ':paciente'])->group(function () {
     Route::get('/paciente', [CitasController::class, 'index'])->name('paciente');

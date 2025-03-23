@@ -177,6 +177,7 @@
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 locale: 'es',
+                timeZone: 'local',
                 selectable: true,
                 selectAllow: function(selectInfo) {
                     let today = new Date().setHours(0, 0, 0, 0);
@@ -184,8 +185,25 @@
                     return selectedDate >= today;
                 },
                 dateClick: function(info) {
-                    let today = new Date().setHours(0, 0, 0, 0);
-                    let clickedDate = new Date(info.dateStr).setHours(0, 0, 0, 0);
+                    console.log("Fecha recibida (info.dateStr):", info.dateStr);
+
+                    // Obtener la fecha actual en la zona horaria local
+                    let today = new Date();
+                    today.setHours(0, 0, 0, 0);
+
+                    // Convertir info.dateStr a fecha local
+                    let clickedDate = new Date(info.dateStr + "T00:00:00");
+                    if (isNaN(clickedDate.getTime())) {
+                        console.error("Fecha no válida:", info.dateStr);
+                        alert("Error: Fecha no válida.");
+                        return;
+                    }
+                    clickedDate.setHours(0, 0, 0, 0);
+
+                    console.log("Hoy:", today);
+                    console.log("Fecha seleccionada:", clickedDate);
+
+                    // Comparar fechas
                     if (clickedDate < today) {
                         alert("No puedes agendar citas en fechas pasadas.");
                     } else {
@@ -233,12 +251,10 @@
                         return response.text();
                     })
                     .then(html => {
-                        console.log("Cita guardada correctamente.");
                         closeModal();
                         document.getElementById('formCita').reset();
                         document.getElementById('modalExito').classList.remove('hidden');
 
-                        // Agregar el evento al calendario
                         calendar.addEvent({
                             title: `${formData.especialidad} - ${formData.hora}`,
                             start: formData.fecha,

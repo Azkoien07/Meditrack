@@ -18505,3 +18505,4 @@ DETAIL:  La fila que falla contiene (1, Mario, Diaz, Masculino, tarde, 2, 2025-0
 #54 C:\\Users\\Gabri\\OneDrive\\Escritorio\\mediTrack\\MediTrack\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('...')
 #55 {main}
 "} 
+[2025-03-23 00:50:08] local.INFO: ID del paciente autenticado: {"id":1} 
