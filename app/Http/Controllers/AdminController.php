@@ -54,25 +54,15 @@ class AdminController extends Controller
             return redirect()->back()->with('error', 'No se encontraron datos específicos para este usuario.');
         }
 
-        return view('Admin.editar', compact('usuario', 'persona'));
+        if ($usuario->rol->nombre === 'doctor') {
+            return view('Admin.editar_doctor', compact('usuario', 'persona'));
+        } else {
+            return view('Admin.editar', compact('usuario', 'persona'));
+        }
     }
 
     public function actualizar(Request $request, $id)
     {
-        // Validar datos
-        $datosValidados = $request->validate([
-            'nombre' => 'required|string|max:255',
-            'apellido' => 'required|string|max:255',
-            'edad' => 'required|integer|min:0',
-            'genero' => 'required|string|in:Masculino,Femenino',
-            'telefono' => 'nullable|string|max:20',
-            'tipo_identificacion' => 'required|string|max:50',
-            'identificacion' => "required|string|max:50|unique:pacientes,identificacion,{$id},id", // Corregido
-            'eps' => 'nullable|string|max:255',
-            'f_nacimiento' => 'nullable|date',
-        ]);
-
-        // Verificar si el usuario existe y tiene un rol válido
         $usuario = Usuario::with('rol')->find($id);
 
         if (!$usuario) {
@@ -83,6 +73,31 @@ class AdminController extends Controller
             return back()->with('error', 'El usuario no tiene un rol asignado.');
         }
 
+        if ($usuario->rol->nombre === 'doctor') {
+            // Validación para doctores
+            $datosValidados = $request->validate([
+                'nombre' => 'required|string|max:255',
+                'apellido' => 'required|string|max:255',
+                'genero' => 'required|string|in:masculino,f emenino',
+                'turno' => 'required|string|in:mañana,tarde,noche',
+            ]);
+        } elseif ($usuario->rol->nombre === 'paciente') {
+            // Validación para pacientes
+            $datosValidados = $request->validate([
+                'nombre' => 'required|string|max:255',
+                'apellido' => 'required|string|max:255',
+                'edad' => 'required|integer|min:0',
+                'genero' => 'required|string|in:Masculino,Femenino',
+                'telefono' => 'nullable|string|max:20',
+                'tipo_identificacion' => 'required|string|max:50',
+                'identificacion' => "required|string|max:50|unique:pacientes,identificacion,{$id},id",
+                'eps' => 'nullable|string|max:255',
+                'f_nacimiento' => 'nullable|date',
+            ]);
+        } else {
+            return back()->with('error', 'Rol no válido.');
+        }
+        
         $persona = null;
 
         if ($usuario->rol->nombre === 'doctor') {
@@ -91,13 +106,12 @@ class AdminController extends Controller
             $persona = Paciente::where('usuario_id', $id)->first();
         }
 
-        if (!$persona) {
-            return back()->with('error', 'No se encontraron datos para actualizar.');
-        }
 
-        // Verificar si los datos han cambiado
-        if ($persona->fill($datosValidados)->isDirty()) {
-            $persona->save();
+        // Actualizar los datos del modelo
+        $persona->fill($datosValidados);
+
+        if ($persona->isDirty()) {
+            $persona->save(); // Guardar solo si hay cambios
             return redirect()->route('admin')->with('success', ucfirst($usuario->rol->nombre) . ' actualizado correctamente.');
         }
 

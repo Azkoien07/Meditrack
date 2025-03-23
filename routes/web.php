@@ -34,16 +34,19 @@ Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
 });
 
 
-Route::middleware([RoleMiddleware::class . ':doctor'])->group(function () {});
+Route::middleware([RoleMiddleware::class . ':doctor'])->group(function () {
+    Route::get('/doctor', [DoctorController::class, 'index'])->name('doctor');
+
+});
 Route::get('/doctor/pacientes', [DoctorController::class, 'verPacientes'])->name('doctor.pacientes');
-Route::get('/doctor', [DoctorController::class, 'index'])->name('doctor');
 Route::post('/doctores', [DoctorController::class, 'store'])->name('doctores.store');
 Route::get('/doctores/create', [DoctorController::class, 'create'])->name('Doctor.createD');
+
 
 Route::middleware([RoleMiddleware::class . ':paciente'])->group(function () {
     Route::get('/paciente', [CitasController::class, 'index'])->name('paciente');
 });
 
-//  Rutass para gestión de citas
+//  Rutas para gestión de citas
 Route::get('/citas', [CitasController::class, 'index'])->name('citas.index');
 Route::post('/citas', [CitasController::class, 'store'])->name('citas.store');

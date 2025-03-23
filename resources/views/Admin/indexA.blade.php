@@ -39,13 +39,15 @@
                     <td class="border border-gray-300 px-3 py-2 sm:px-4 sm:py-2">{{ $paciente->id }}</td>
                     <td class="border border-gray-300 px-3 py-2 sm:px-4 sm:py-2">{{ $paciente->correo }}</td>
                     <td class="border border-gray-300 px-3 py-2 sm:px-4 sm:py-2">{{ $paciente->created_at->format('d/m/Y') }}</td>
-                    <td>
-                        <a href="{{ route('admin.editar', $paciente->id) }}" class="bg-yellow-500 text-white px-2 py-1 sm:px-3 sm:py-1 rounded ml-2 text-sm sm:text-base">Editar</a>
-                        <form action="{{ route('admin.eliminar', $paciente->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button class="bg-red-500 text-white px-3 grid-cols-2 py-1 rounded text-sm sm:text-base min-w-[100px] sm:min-w-[auto]" type="submit" onclick="return confirm('¿Seguro que deseas eliminar este usuario?')">Eliminar</button>
-                        </form>
+                    <td class="border border-gray-300 px-3 py-2 sm:px-4 sm:py-2">
+                        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+                            <a href="{{ route('admin.editar', $paciente->id) }}" class="bg-yellow-500 text-white px-3 py-1 rounded text-sm sm:text-base transition-all hover:bg-yellow-600">Editar</a>
+                            <form action="{{ route('admin.eliminar', $paciente->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button class="bg-red-500 text-white px-3 py-1 rounded text-sm sm:text-base transition-all hover:bg-red-600" type="submit" onclick="return confirm('¿Seguro que deseas eliminar este usuario?')">Eliminar</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
                 @endforeach
@@ -73,7 +75,7 @@
                     <td class="border border-gray-300 px-3 py-2 sm:px-4 sm:py-2">{{ $doctor->correo }}</td>
                     <td class="border border-gray-300 px-3 py-2 sm:px-4 sm:py-2">--</td>
                     <td class="border border-gray-300 px-3 py-2 sm:px-4 sm:py-2">
-                        <div class="flex flex-wrap items-center gap-2 sm:gap-4">
+                        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
                             <select class="border rounded p-1 text-sm sm:text-base">
                                 <option>Seleccionar</option>
                                 <option>Pediatría</option>
@@ -85,18 +87,15 @@
                                 <option>Oncología</option>
                                 <option>Odontología</option>
                             </select>
-                            <div class="flex flex-wrap sm:flex-nowrap gap-2 sm:gap-3 justify-center sm:justify-start">
-                                <button class="bg-blue-500 text-white px-3 py-1 rounded text-sm sm:text-base min-w-[100px] sm:min-w-[auto]">Asignar</button>
-                                <button class="bg-yellow-500 text-white px-3 py-1 rounded text-sm sm:text-base min-w-[100px] sm:min-w-[auto]">Editar</button>
-                                <form action="{{ route('admin.eliminar', $doctor->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="bg-red-500 text-white px-3 py-1 rounded text-sm sm:text-base min-w-[100px] sm:min-w-[auto]" type="submit" onclick="return confirm('¿Seguro que deseas eliminar este doctor?')">Eliminar</button>
-                                </form>
-                            </div>
+                            <button class="bg-blue-500 text-white px-3 py-1 rounded text-sm sm:text-base transition-all hover:bg-blue-600">Asignar</button>
+                            <a href="{{ route('admin.editar', $doctor->id) }}" class="bg-yellow-500 text-white px-3 py-1 rounded text-sm sm:text-base transition-all hover:bg-yellow-600">Editar</a>
+                            <form action="{{ route('admin.eliminar', $doctor->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button class="bg-red-500 text-white px-3 py-1 rounded text-sm sm:text-base transition-all hover:bg-red-600" type="submit" onclick="return confirm('¿Seguro que deseas eliminar este doctor?')">Eliminar</button>
+                            </form>
                         </div>
                     </td>
-
                 </tr>
                 @endforeach
             </tbody>
