@@ -61,7 +61,6 @@ class CitasController extends Controller
         $cita->paciente_id = $pacienteId;
         $cita->save();
 
-        // Redirigir con un mensaje de éxito
         return redirect()->route('citas.index')->with('success', 'Cita creada exitosamente.');
     }
     /**

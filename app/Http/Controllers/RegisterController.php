@@ -59,8 +59,7 @@ class RegisterController extends Controller
             'eps' => $validatedData['eps'],
             'f_nacimiento' => $validatedData['f_nacimiento'],
         ]);
-
-        // Redirigir a la vista de "Login" con un mensaje de éxito
+        
         return redirect()->route('login')->with(['success' => 'Registro exitoso']);
     }
 }

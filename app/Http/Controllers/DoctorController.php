@@ -56,6 +56,7 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
+
         // Validación de los campos
         $request->validate([
             'correo' => 'required|email|unique:usuarios,correo',
@@ -91,8 +92,6 @@ class DoctorController extends Controller
         // Redireccionar
         return redirect()->route('admin')->with('success', 'Doctor creado exitosamente.');
     }
-
-
 
     /**
      * Display the specified resource.

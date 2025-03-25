@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Usuario;
 use App\Models\Paciente;
 use App\Models\Doctor;
+use App\Models\Especialidad;
 use Illuminate\Http\Request;
 use App\Services\PdfService;
 
 class AdminController extends Controller
-{   // Define la propiedad $pdfService
+{
     protected $pdfService;
 
     // Inyecta el servicio PdfService en el constructor
@@ -21,20 +22,20 @@ class AdminController extends Controller
     public function index()
     {
         // Obtener los usuarios según su rol
-        $pacientes = Usuario::where('rol_id', 2)->get(); // Pacientes
-        $doctores = Usuario::where('rol_id', 3)->get(); // Doctores
+        $pacientes = Paciente::with('usuario')->get();// Pacientes
+        $doctores = Doctor::with('usuario')->get(); // Doctores
 
-        // Retornar la vista 'Admin.indexA' con los datos
         return view('Admin.indexA', compact('pacientes', 'doctores'));
     }
+
     public function eliminar($id)
     {
         // Buscar el usuario por ID
         $usuario = Usuario::findOrFail($id);
 
-        if ($usuario->rol_id == 2) { // Paciente
+        if ($usuario->rol_id == 2) {
             Paciente::where('id', $id)->delete();
-        } elseif ($usuario->rol_id == 3) { // Doctor
+        } elseif ($usuario->rol_id == 3) {
             Doctor::where('id', $id)->delete();
         }
 
@@ -47,12 +48,10 @@ class AdminController extends Controller
     {
         $usuario = Usuario::with('rol')->findOrFail($id);
 
-        // Verificar si el usuario tiene un rol válido
         if (!$usuario->rol) {
             return redirect()->back()->with('error', 'El usuario no tiene un rol asignado.');
         }
 
-        // Buscar el modelo correspondiente según el rol
         $persona = match ($usuario->rol->nombre) {
             'doctor' => Doctor::where('usuario_id', $id)->first(),
             'paciente' => Paciente::where('usuario_id', $id)->first(),
@@ -90,6 +89,7 @@ class AdminController extends Controller
                 'genero' => 'required|string|in:masculino,f emenino',
                 'turno' => 'required|string|in:mañana,tarde,noche',
             ]);
+
         } elseif ($usuario->rol->nombre === 'paciente') {
             // Validación para pacientes
             $datosValidados = $request->validate([
@@ -115,8 +115,6 @@ class AdminController extends Controller
             $persona = Paciente::where('usuario_id', $id)->first();
         }
 
-
-        // Actualizar los datos del modelo
         $persona->fill($datosValidados);
 
         if ($persona->isDirty()) {
@@ -126,31 +124,16 @@ class AdminController extends Controller
 
         return back()->with('info', 'No se realizaron cambios.');
     }
-    public function descargarReportePacientes()
+
+    public function descargarReporte($id)
     {
-        // Obtener los datos de los pacientes desde la base de datos
-        $pacientes = Paciente::all();
+        $paciente = Paciente::find($id);
 
-        // Convertir los datos a un array para pasarlos a la vista
-        $data = $pacientes->map(function ($paciente) {
-            return [
-                'id' => $paciente->id,
-                'nombre' => $paciente->nombre,
-                'apellido' => $paciente->apellido,
-                'edad' => $paciente->edad,
-                'genero' => $paciente->genero,
-                'telefono' => $paciente->telefono,
-                'tipo_identificacion' => $paciente->tipo_identificacion,
-                'identificacion' => $paciente->identificacion,
-                'eps' => $paciente->eps,
-                'f_nacimiento' => $paciente->f_nacimiento,
-            ];
-        })->toArray();
+        if (!$paciente) {
+            return redirect()->back()->with('error', 'Paciente no encontrado.');
+        }
 
-        // Generar el PDF
-        $pdf = $this->pdfService->generatePatientReport($data);
-
-        // Descargar el PDF
-        return $pdf->download('reporte_pacientes.pdf');
+        $pdf = $this->pdfService->generatePatientReport($paciente);
+        return $pdf->download("reporte_paciente_{$paciente->id}.pdf");
     }
 }

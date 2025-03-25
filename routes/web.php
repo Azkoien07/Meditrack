@@ -5,9 +5,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\RolesController;
 use App\Http\Controllers\CitasController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\DoctorEspecialidadController;
+use App\Http\Controllers\EspecialidadController;
 
 // Página de inicio (Login)
 Route::get('/', function () {
@@ -28,17 +29,17 @@ Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
     Route::delete('/admin/eliminar/{id}', [AdminController::class, 'eliminar'])->name('admin.eliminar');
     Route::get('/admin/editar/{id}', [AdminController::class, 'editar'])->name('admin.editar');
     Route::put('/admin/actualizar/{id}', [AdminController::class, 'actualizar'])->name('admin.actualizar');
-    Route::get('/admin/descargar-reporte', [AdminController::class, 'descargarReportePacientes'])->name('admin.descargar.reporte');
+    Route::get('/admin/descargar-reporte/{id}', [AdminController::class, 'descargarReporte'])->name('admin.descargar.reporte');
 });
+Route::get('/doctores/create', [DoctorController::class, 'create'])->name('Doctor.createD');
+Route::post('/doctores', [DoctorController::class, 'store'])->name('doctores.store');
 
 
 Route::middleware([RoleMiddleware::class . ':doctor'])->group(function () {
     Route::get('/doctor', [DoctorController::class, 'index'])->name('doctor');
     Route::get('/doctor/pacientes', [DoctorController::class, 'verPacientes'])->name('doctor.pacientes');
-    Route::post('/doctores', [DoctorController::class, 'store'])->name('doctores.store');
 });
 
-Route::get('/doctores/create', [DoctorController::class, 'create'])->name('Doctor.createD');
 
 Route::middleware([RoleMiddleware::class . ':paciente'])->group(function () {
     Route::get('/paciente', [CitasController::class, 'index'])->name('paciente');

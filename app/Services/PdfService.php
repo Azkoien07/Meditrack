@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Paciente;
 use Illuminate\Support\Facades\View;
 
 class PdfService
@@ -14,9 +15,12 @@ class PdfService
      * @param string $view Nombre de la vista.
      * @return \Barryvdh\DomPDF\PDF
      */
-    public function generatePatientReport(array $data, string $view = 'Reports.paciente')
+    public function generatePatientReport(Paciente $paciente, string $view = 'Reports.paciente')
     {
-        // Cargar la vista y generar el PDF
+        // Convertir a array para la vista
+        $data = $paciente->toArray();
+
+        // Generar el PDF
         $pdf = Pdf::loadView($view, compact('data'));
 
         return $pdf;

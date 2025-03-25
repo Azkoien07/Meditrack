@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\doctor_especialidad;
+use App\Models\doctor;
+use App\Models\Especialidad;
+use App\Models\DoctorEspecialidad;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DoctorEspecialidadController extends Controller
 {
@@ -12,7 +15,23 @@ class DoctorEspecialidadController extends Controller
      */
     public function index()
     {
-        //
+        return view('Admin.especialidad', [
+            'doctores' => Doctor::with('especialidades')->get(),
+            'especialidades' => Especialidad::all(),
+        ]);
+    }
+
+    public function asignarEspecialidad(Request $request)
+    {
+        $request->validate([
+            'doctor_id' => 'required|exists:doctores,id',
+            'especialidad_id' => 'required|exists:especialidades,id',
+        ]);
+
+        $doctor = Doctor::findOrFail($request->doctor_id);
+        $doctor->especialidades()->syncWithoutDetaching([$request->especialidad_id]);
+
+        return redirect()->back()->with('success', 'Especialidad asignada correctamente.');
     }
 
     /**
@@ -34,7 +53,7 @@ class DoctorEspecialidadController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(doctor_especialidad $doctor_especialidad)
+    public function show(DoctorEspecialidad $DoctorEspecialidad)
     {
         //
     }
@@ -42,7 +61,7 @@ class DoctorEspecialidadController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(doctor_especialidad $doctor_especialidad)
+    public function edit(DoctorEspecialidad $DoctorEspecialidad)
     {
         //
     }
@@ -50,7 +69,7 @@ class DoctorEspecialidadController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, doctor_especialidad $doctor_especialidad)
+    public function update(Request $request, DoctorEspecialidad $DoctorEspecialidad)
     {
         //
     }
@@ -58,7 +77,7 @@ class DoctorEspecialidadController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(doctor_especialidad $doctor_especialidad)
+    public function destroy(DoctorEspecialidad $DoctorEspecialidad)
     {
         //
     }
