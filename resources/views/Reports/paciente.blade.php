@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Reporte de Pacientes</title>
     <link href="{{ public_path('css/pdf-styles.css') }}" rel="stylesheet">
@@ -8,7 +7,6 @@
         body {
             font-family: Arial, sans-serif;
             font-size: 10px;
-            /* Fuente reducida para evitar cortes */
             color: #333;
             margin: 0;
             padding: 10px;
@@ -35,9 +33,7 @@
             width: 100%;
             border-collapse: collapse;
             table-layout: fixed;
-            /* Ajusta el tamaño de las columnas */
             word-wrap: break-word;
-            /* Evita desbordamientos de texto */
         }
 
         th,
@@ -47,7 +43,6 @@
             border: 1px solid #ddd;
             overflow: hidden;
             font-size: 9px;
-            /* Fuente más pequeña para caber en la hoja */
         }
 
         thead {
@@ -72,7 +67,6 @@
             margin-top: 10px;
         }
 
-        /* Evita que la tabla se corte en la siguiente página */
         table,
         tr,
         td,

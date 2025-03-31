@@ -65,7 +65,6 @@
             </div>
         </div>
     </div>
-
     <!-- Modal para agendar cita -->
     <div id="modalCita" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-4 p-6">
@@ -142,7 +141,6 @@
             </form>
         </div>
     </div>
-
     <!-- Modal de éxito -->
     <div id="modalExito" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-6">
@@ -186,7 +184,6 @@
                 dateClick: function(info) {
                     console.log("Fecha recibida (info.dateStr):", info.dateStr);
 
-                    // Obtener la fecha actual en la zona horaria local
                     let today = new Date();
                     today.setHours(0, 0, 0, 0);
 
@@ -268,5 +265,4 @@
         });
     </script>
 </body>
-
 </html>

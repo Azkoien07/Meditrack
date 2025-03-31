@@ -48,7 +48,7 @@
             </div>
         </div>
 
-        <!-- Tabla de citas (Oculta por defecto) -->
+        <!-- Tabla de citas -->
         <div id="citasContainer" class="mt-6 hidden">
             <h2 class="text-xl font-bold mb-4">Tus Citas</h2>
             <div class="bg-white shadow-md rounded-lg overflow-hidden">

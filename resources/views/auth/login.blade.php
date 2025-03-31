@@ -10,10 +10,8 @@
 </head>
 
 <body class="bg-gradient-to-r from-blue-50 to-purple-50 flex flex-col items-center justify-center min-h-screen p-4">
-    <!-- Título principal -->
     <h1 class="text-5xl font-bold text-gray-800 mb-8 text-center">Bienvenidos a <span class="text-blue-600">MediTrack</span></h1>
 
-    <!-- Contenedor del formulario de inicio de sesión -->
     <div class="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md">
         <h3 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Iniciar Sesión</h3>
 
@@ -165,8 +163,6 @@
             </div>
         </div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

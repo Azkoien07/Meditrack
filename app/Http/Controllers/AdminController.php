@@ -23,7 +23,7 @@ class AdminController extends Controller
     {
         $pacientes = Paciente::with('usuario')->get();
         $doctores = Doctor::with('usuario')->get();
-        $especialidades = Especialidad::all(); // ← Obtener todas las especialidades
+        $especialidades = Especialidad::all();
 
         return view('Admin.indexA', compact('pacientes', 'doctores', 'especialidades'));
     }
@@ -117,7 +117,7 @@ class AdminController extends Controller
         $persona->fill($datosValidados);
 
         if ($persona->isDirty()) {
-            $persona->save(); // Guardar solo si hay cambios
+            $persona->save();
             return redirect()->route('admin')->with('success', ucfirst($usuario->rol->nombre) . ' actualizado correctamente.');
         }
 
@@ -137,12 +137,10 @@ class AdminController extends Controller
     }
     public function asignarEspecialidad(Request $request, Doctor $doctor)
     {
-        // Validar que se seleccione una especialidad
         $request->validate([
             'especialidad_id' => 'required|exists:especialidades,id'
         ]);
 
-        // Asignar la especialidad al doctor en la tabla intermedia
         $doctor->especialidades()->attach($request->especialidad_id);
 
         return redirect()->back()->with('success', 'Especialidad asignada correctamente.');

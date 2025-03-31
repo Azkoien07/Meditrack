@@ -1,5 +1,4 @@
 @extends('Layouts.App')
-
 @section('content')
 
 <head>
@@ -7,7 +6,6 @@
 </head>
 <div class="min-h-screen bg-gradient-to-r from-blue-50 to-purple-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-4xl w-full bg-white rounded-2xl shadow-2xl p-8">
-        <!-- Título del formulario -->
         <h1 class="text-4xl font-bold text-gray-800 mb-8 text-center">Agregar Nuevo Doctor</h1>
 
         <!-- Formulario -->

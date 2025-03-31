@@ -25,7 +25,6 @@
             <p class="text-2xl sm:text-3xl font-bold text-gray-900">{{ $especialidades->count() }}</p>
         </div>
     </div>
-
     <!-- Tabla de Pacientes -->
     <div class="bg-white shadow-md rounded-lg p-4 mb-6 overflow-x-auto">
         <h2 class="text-xl font-semibold text-gray-800 mb-4">Lista de Pacientes</h2>
@@ -60,7 +59,6 @@
             </tbody>
         </table>
     </div>
-
     <!-- Tabla de Doctores y Asignación de Especialidades -->
     <div class="bg-white shadow-md rounded-lg p-4 overflow-x-auto">
         <h2 class="text-xl font-semibold text-gray-800 mb-4">Lista de Doctores</h2>
@@ -88,7 +86,6 @@
                             @endforeach
                         </div>
                     </td>
-
                     <td class="border border-gray-300 px-3 py-2 sm:px-4 sm:py-2">
                         <div class="flex flex-wrap items-center gap-2 sm:gap-3">
                             <form action="{{ route('admin.asignarEspecialidad', $doctor->id) }}" method="POST">
@@ -111,7 +108,6 @@
                     </td>
                 </tr>
                 @endforeach
-
             </tbody>
         </table>
     </div>
