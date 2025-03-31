@@ -22,7 +22,7 @@
         </div>
         <div class="bg-white shadow-md rounded-lg p-4 border-l-4 border-purple-500">
             <h2 class="text-lg sm:text-xl font-semibold text-gray-700">Especialidades Médicas</h2>
-            <p class="text-2xl sm:text-3xl font-bold text-gray-900">--</p>
+            <p class="text-2xl sm:text-3xl font-bold text-gray-900">{{ $especialidades->count() }}</p>
         </div>
     </div>
 
@@ -42,15 +42,11 @@
                 @foreach ($pacientes as $paciente)
                 <tr class="hover:bg-gray-50">
                     <td class="border border-gray-300 px-3 py-2 sm:px-4 sm:py-2">{{ $paciente->id }}</td>
-                    <td class="border border-gray-300 px-3 py-2 sm:px-4 sm:py-2">
-                        {{ $paciente->usuario->correo ?? 'Sin correo' }}
-                    </td>
+                    <td class="border border-gray-300 px-3 py-2 sm:px-4 sm:py-2">{{ $paciente->usuario->correo ?? 'Sin correo' }}</td>
                     <td class="border border-gray-300 px-3 py-2 sm:px-4 sm:py-2">{{ $paciente->created_at->format('d/m/Y') }}</td>
                     <td class="border border-gray-300 px-3 py-2 sm:px-4 sm:py-2">
                         <div class="flex flex-wrap items-center gap-2 sm:gap-3">
-                            <a href="{{ route('admin.descargar.reporte', $paciente->id) }}" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
-                                Descargar Reporte
-                            </a>
+                            <a href="{{ route('admin.descargar.reporte', $paciente->id) }}" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Descargar Reporte</a>
                             <a href="{{ route('admin.editar', $paciente->id) }}" class="bg-yellow-500 text-white px-3 py-1 rounded text-sm sm:text-base transition-all hover:bg-yellow-600">Editar</a>
                             <form action="{{ route('admin.eliminar', $paciente->id) }}" method="POST">
                                 @csrf
@@ -82,24 +78,29 @@
                 @foreach ($doctores as $doctor)
                 <tr class="hover:bg-gray-50">
                     <td class="border border-gray-300 px-3 py-2 sm:px-4 sm:py-2">{{ $doctor->id }}</td>
+                    <td class="border border-gray-300 px-3 py-2 sm:px-4 sm:py-2">{{ $doctor->usuario->correo ?? 'Sin correo' }}</td>
+
+                    {{-- Mostramos todas las especialidades en una sola celda --}}
                     <td class="border border-gray-300 px-3 py-2 sm:px-4 sm:py-2">
-                        {{ $doctor->usuario->correo ?? 'Sin correo' }}
+                        <div class="flex flex-wrap gap-1">
+                            @foreach($doctor->especialidades as $especialidad)
+                            <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-sm">{{ $especialidad->nombre }}</span>
+                            @endforeach
+                        </div>
                     </td>
-                    <td class="border border-gray-300 px-3 py-2 sm:px-4 sm:py-2">--</td>
+
                     <td class="border border-gray-300 px-3 py-2 sm:px-4 sm:py-2">
                         <div class="flex flex-wrap items-center gap-2 sm:gap-3">
-                            <select class="border rounded p-1 text-sm sm:text-base">
-                                <option>Seleccionar</option>
-                                <option>Pediatría</option>
-                                <option>Psiquiatría</option>
-                                <option>Cardiología</option>
-                                <option>Dermatología</option>
-                                <option>Oftalmología</option>
-                                <option>Neurología</option>
-                                <option>Oncología</option>
-                                <option>Odontología</option>
-                            </select>
-                            <button class="bg-blue-500 text-white px-3 py-1 rounded text-sm sm:text-base transition-all hover:bg-blue-600">Asignar</button>
+                            <form action="{{ route('admin.asignarEspecialidad', $doctor->id) }}" method="POST">
+                                @csrf
+                                <select name="especialidad_id" class="border rounded p-1 text-sm sm:text-base" required>
+                                    <option value="">Seleccionar</option>
+                                    @foreach ($especialidades as $especialidad)
+                                    <option value="{{ $especialidad->id }}">{{ $especialidad->nombre }}</option>
+                                    @endforeach
+                                </select>
+                                <button type="submit" class="bg-blue-500 text-white px-3 py-1 rounded text-sm sm:text-base transition-all hover:bg-blue-600">Asignar</button>
+                            </form>
                             <a href="{{ route('admin.editar', $doctor->id) }}" class="bg-yellow-500 text-white px-3 py-1 rounded text-sm sm:text-base transition-all hover:bg-yellow-600">Editar</a>
                             <form action="{{ route('admin.eliminar', $doctor->id) }}" method="POST">
                                 @csrf
@@ -110,6 +111,7 @@
                     </td>
                 </tr>
                 @endforeach
+
             </tbody>
         </table>
     </div>

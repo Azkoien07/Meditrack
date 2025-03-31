@@ -30,7 +30,9 @@ Route::middleware([RoleMiddleware::class . ':admin'])->group(function () {
     Route::get('/admin/editar/{id}', [AdminController::class, 'editar'])->name('admin.editar');
     Route::put('/admin/actualizar/{id}', [AdminController::class, 'actualizar'])->name('admin.actualizar');
     Route::get('/admin/descargar-reporte/{id}', [AdminController::class, 'descargarReporte'])->name('admin.descargar.reporte');
+    Route::post('/admin/asignar-especialidad/{doctor}', [AdminController::class, 'asignarEspecialidad'])->name('admin.asignarEspecialidad');
 });
+
 Route::get('/doctores/create', [DoctorController::class, 'create'])->name('Doctor.createD');
 Route::post('/doctores', [DoctorController::class, 'store'])->name('doctores.store');
 

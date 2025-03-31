@@ -21,11 +21,11 @@ class AdminController extends Controller
 
     public function index()
     {
-        // Obtener los usuarios según su rol
-        $pacientes = Paciente::with('usuario')->get();// Pacientes
-        $doctores = Doctor::with('usuario')->get(); // Doctores
+        $pacientes = Paciente::with('usuario')->get();
+        $doctores = Doctor::with('usuario')->get();
+        $especialidades = Especialidad::all(); // ← Obtener todas las especialidades
 
-        return view('Admin.indexA', compact('pacientes', 'doctores'));
+        return view('Admin.indexA', compact('pacientes', 'doctores', 'especialidades'));
     }
 
     public function eliminar($id)
@@ -89,7 +89,6 @@ class AdminController extends Controller
                 'genero' => 'required|string|in:masculino,f emenino',
                 'turno' => 'required|string|in:mañana,tarde,noche',
             ]);
-
         } elseif ($usuario->rol->nombre === 'paciente') {
             // Validación para pacientes
             $datosValidados = $request->validate([
@@ -135,5 +134,17 @@ class AdminController extends Controller
 
         $pdf = $this->pdfService->generatePatientReport($paciente);
         return $pdf->download("reporte_paciente_{$paciente->id}.pdf");
+    }
+    public function asignarEspecialidad(Request $request, Doctor $doctor)
+    {
+        // Validar que se seleccione una especialidad
+        $request->validate([
+            'especialidad_id' => 'required|exists:especialidades,id'
+        ]);
+
+        // Asignar la especialidad al doctor en la tabla intermedia
+        $doctor->especialidades()->attach($request->especialidad_id);
+
+        return redirect()->back()->with('success', 'Especialidad asignada correctamente.');
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Doctor extends Model{
     protected $table = 'doctores';
     
@@ -21,7 +21,7 @@ class Doctor extends Model{
     }
     
     // Relación (M-N) con Especialidad
-    public function especialidad(){
-        return $this->belongsToMany(Especialidad::class, 'especialidad_id');
+    public function especialidades(): BelongsToMany {
+        return $this->belongsToMany(Especialidad::class, 'doctor_especialidad', 'doctor_id', 'especialidad_id')->withTimestamps();
     }
 }
