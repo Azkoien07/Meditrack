@@ -14,12 +14,12 @@ class CitasSeeder extends Seeder
     public function run(): void
     {
         Citas::create([
-            'fecha' => '2025-03-20', // Fecha de la cita
-            'hora' => '10:00',       // Hora de la cita
-            'sede' => 'Calle 26',     // Sede de la cita
-            'estado' => 'Pendiente', // Estado de la cita
-            'doctor_id' => 1,        // ID del doctor (debe existir en la tabla doctores)
-            'paciente_id' => 1,      // ID del paciente (debe existir en la tabla pacientes)
+            'fecha' => '2025-03-20',
+            'hora' => '10:00',
+            'sede' => 'Calle 26',
+            'estado' => 'Pendiente',
+            'doctor_id' => 1,
+            'paciente_id' => 1,
         ]);
     }
 }
